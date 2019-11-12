@@ -46,8 +46,8 @@ public class AutoCompleteController {
 		return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
 	}
 	
-	private ResponseEntity<Page<EventCollected>> autoCompleteFallback() {
+	private ResponseEntity<Page<EventCollected>> autoCompleteFallback(@RequestParam String word, @RequestParam int size) {
 		
-		return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
+		return new ResponseEntity<>(null, HttpStatus.SERVICE_UNAVAILABLE);
 	}
 }
