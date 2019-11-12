@@ -22,10 +22,10 @@ public class AutoCompleteController {
 	
 	@HystrixCommand(fallbackMethod="addEventFallback")
 	@PostMapping(path = "/event", consumes = "application/json", produces = "application/json")
-	ResponseEntity addEvent(@RequestBody EventCollected event) {
+	ResponseEntity<String> addEvent(@RequestBody EventCollected event) {
 		
 		eventService.save(event);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>("Event saved.", HttpStatus.OK);
 
 	}
 	
@@ -41,13 +41,15 @@ public class AutoCompleteController {
 
 	}
 	
-	private ResponseEntity addEventFallback() {
+	@SuppressWarnings("unused")
+	private ResponseEntity<String> addEventFallback() {
 		
-		return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
+		return new ResponseEntity<>("Service unavaible.", HttpStatus.SERVICE_UNAVAILABLE);
 	}
 	
-	private ResponseEntity<Page<EventCollected>> autoCompleteFallback() {
+	@SuppressWarnings("unused")
+	private ResponseEntity<String> autoCompleteFallback(@RequestParam String word, @RequestParam int size) {
 		
-		return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
+		return new ResponseEntity<>("Service unavaible.", HttpStatus.SERVICE_UNAVAILABLE);
 	}
 }
