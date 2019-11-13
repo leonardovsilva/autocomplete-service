@@ -24,7 +24,7 @@ class SuggestionEntityBuilder {
 		Completion suggest = new Completion(input);
 		suggest.setWeight(weight);
 
-		result.setSuggest(suggest);
+		//result.setSuggest(suggest);
 		return this;
 	}
 
