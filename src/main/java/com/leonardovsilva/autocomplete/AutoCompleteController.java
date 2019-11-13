@@ -1,7 +1,9 @@
 package com.leonardovsilva.autocomplete;
 
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -31,22 +33,30 @@ public class AutoCompleteController {
 	
 	@HystrixCommand(fallbackMethod="autoCompleteFallback")
 	@GetMapping(path = "/autocomplete", produces = "application/json")
-	ResponseEntity<Page<EventCollected>> autoComplete(@RequestParam String word, @RequestParam int size) {
+	ResponseEntity<List<EventCollected>> autoComplete(@RequestParam String word, @RequestParam int size) {
+		
+		
+		if(word.length() < 2) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
 		
 		Pageable pageElements = PageRequest.of(0, size);
 		
-		Page<EventCollected> events = eventService.findByEvent(word, pageElements);
+		List<EventCollected> events = eventService.findDistinctByEventContaining(word, pageElements);
+		
         
 		return new ResponseEntity<>(events, HttpStatus.OK);
 
 	}
 	
-	private ResponseEntity addEventFallback() {
+	@SuppressWarnings({ "rawtypes", "unused" })
+	private ResponseEntity addEventFallback(@RequestBody EventCollected event) {
 		
 		return new ResponseEntity<>(HttpStatus.SERVICE_UNAVAILABLE);
 	}
 	
-	private ResponseEntity<Page<EventCollected>> autoCompleteFallback(@RequestParam String word, @RequestParam int size) {
+	@SuppressWarnings("unused")
+	private ResponseEntity<List<EventCollected>> autoCompleteFallback(@RequestParam String word, @RequestParam int size) {
 		
 		return new ResponseEntity<>(null, HttpStatus.SERVICE_UNAVAILABLE);
 	}

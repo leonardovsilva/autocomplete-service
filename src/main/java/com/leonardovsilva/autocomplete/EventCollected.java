@@ -1,9 +1,12 @@
 package com.leonardovsilva.autocomplete;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.CompletionField;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.core.completion.Completion;
 
-@Document(indexName = "autocomplete", type = "events")
+@Document(indexName = "autocomplete", type = "events", shards = 1, replicas = 0,
+refreshInterval = "-1")
 public class EventCollected {
 	
 	@Id
@@ -11,7 +14,13 @@ public class EventCollected {
 	private String event;
     private String timestamp;
     
+    //@CompletionField(maxInputLength = 100) private Completion suggest;
+    
     public EventCollected() {
+    }
+    
+    public EventCollected(String id) {
+    	this.id = id;
     }
 
     public EventCollected(String id, String event, String timestamp) {
@@ -43,6 +52,14 @@ public class EventCollected {
 	public void setTimestamp(String timestamp) {
 		this.timestamp = timestamp;
 	}
+	
+	/*public Completion getSuggest() {
+		return suggest;
+	}
+
+	public void setSuggest(Completion suggest) {
+		this.suggest = suggest;
+	}*/
 
     @Override
     public String toString() {

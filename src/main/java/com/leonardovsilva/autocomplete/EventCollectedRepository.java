@@ -11,5 +11,7 @@ public interface EventCollectedRepository extends ElasticsearchRepository<EventC
     Page<EventCollected> findByEvent(String event, Pageable pageable);
 
     List<EventCollected> findByEvent(String event);
+    
+    List<EventCollected> findDistinctByEventContaining(String event, Pageable pageable);
 
 }

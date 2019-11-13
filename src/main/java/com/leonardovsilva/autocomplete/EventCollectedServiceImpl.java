@@ -48,4 +48,9 @@ public class EventCollectedServiceImpl implements  EventCollectedService{
 		return eventRepository.findByEvent(event);
 	}
 
+	@Override
+	public List<EventCollected> findDistinctByEventContaining(String event, Pageable pageable) {
+		return eventRepository.findDistinctByEventContaining(event, pageable);
+	}
+
 }
