@@ -49,8 +49,8 @@ public class AutoCompleteController {
 
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unused" })
-	private ResponseEntity addEventFallback(@RequestBody EventCollected event) {
+	@SuppressWarnings("unused")
+	private ResponseEntity<String> addEventFallback(@RequestBody EventCollected event) {
 
 		return new ResponseEntity<>("Service unavaible.", HttpStatus.SERVICE_UNAVAILABLE);
 	}
